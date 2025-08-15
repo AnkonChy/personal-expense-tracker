@@ -16,6 +16,27 @@ const Expense = () => {
       .then((data) => setExpenses(data));
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:3000/expense/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete");
+      }
+
+      // ✅ Update UI after successful deletion
+      const newData = expenses.filter((e) => e._id !== id);
+      setExpenses(newData);
+
+      Swal.fire("Deleted!", "Your expense has been deleted.", "success");
+    } catch (error) {
+      console.error("Delete error:", error);
+      Swal.fire("Error!", "Something went wrong.", "error");
+    }
+  };
+
   useEffect(() => {
     fetchExpenses(); // on first load
   }, []);
@@ -31,7 +52,7 @@ const Expense = () => {
         <AddExpense onAdd={fetchExpenses} />
         <DashboardExpense
           expenses={filterdExpense}
-          //   handleDelete={handleDelete}
+          handleDelete={handleDelete}
           setSelectCategory={setSelectCategory}
         />
       </div>

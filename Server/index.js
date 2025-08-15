@@ -35,6 +35,14 @@ async function run() {
     const result = await expenseCollection.find().toArray();
     res.send(result);
   });
+
+  //delete expense
+  app.delete("/expenses/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await expenseCollection.deleteOne(query);
+    res.send(result);
+  });
 }
 
 run().catch(console.dir);

@@ -1,7 +1,8 @@
 import React from "react";
 import { CiFilter } from "react-icons/ci";
+import { FaEdit } from "react-icons/fa";
 import { FaBangladeshiTakaSign, FaTrash } from "react-icons/fa6";
-const DashboardExpense = ({ expenses, setSelectCategory }) => {
+const DashboardExpense = ({ expenses, setSelectCategory, handleDelete }) => {
   return (
     <div className="w-2/3 shadow-xl rounded-xl overflow-hidden">
       <div className="flex items-center gap-2 justify-center bg-violet-950 h-20 text-white">
@@ -76,6 +77,12 @@ const DashboardExpense = ({ expenses, setSelectCategory }) => {
                   <td>{expense.date}</td>
                   <td>
                     <button className="bg-black px-4 py-[10px] rounded text-white">
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(expense._id)}
+                      className="ml-1 bg-black px-4 py-[10px] rounded text-white"
+                    >
                       <FaTrash />
                     </button>
                   </td>
