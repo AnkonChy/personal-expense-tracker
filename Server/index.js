@@ -24,9 +24,15 @@ async function run() {
     .collection("expense");
 
   //add expense
-  app.post("/expense", async (req, res) => {
+  app.post("/expenses", async (req, res) => {
     const data = req.body;
     const result = await expenseCollection.insertOne(data);
+    res.send(result);
+  });
+
+  //all expense
+  app.get("/expenses", async (req, res) => {
+    const result = await expenseCollection.find().toArray();
     res.send(result);
   });
 }

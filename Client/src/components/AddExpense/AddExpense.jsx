@@ -4,7 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import toast from "react-hot-toast";
 
-const AddExpense = () => {
+const AddExpense = ({ onAdd }) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
@@ -17,8 +17,8 @@ const AddExpense = () => {
     category,
   };
 
-  const handleAddExpense = ({ onAdd }) => {
-    fetch("http://localhost:7000/expense", {
+  const handleAddExpense = () => {
+    fetch("http://localhost:7000/expenses", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const AddExpense = () => {
               onClick={handleAddExpense}
               className="btn bg-green-700 mt-4 text-white"
             >
-              Login
+              Add
             </button>
           </fieldset>
         </div>
