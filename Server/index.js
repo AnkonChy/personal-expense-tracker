@@ -19,8 +19,18 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
+  const expenseCollection = client
+    .db("personal-expense-tracker")
+    .collection("expense");
 
+  //add expense
+  app.post("/expense", async (req, res) => {
+    const data = req.body;
+    const result = await expenseCollection.insertOne(data);
+    res.send(result);
+  });
 }
+
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
