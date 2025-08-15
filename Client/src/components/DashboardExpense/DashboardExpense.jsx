@@ -1,19 +1,79 @@
 import React from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { CiFilter } from "react-icons/ci";
 import { FaEdit } from "react-icons/fa";
 import { FaBangladeshiTakaSign, FaTrash } from "react-icons/fa6";
-const DashboardExpense = ({ expenses, setSelectCategory, handleDelete }) => {
+const DashboardExpense = ({
+  expenses,
+  setSelectCategory,
+  handleDelete,
+  update,
+}) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
+  const [category, setCategory] = useState("");
+  const updateFormData = {
+    title,
+    amount,
+    date,
+    category,
+  };
+
+  //   const handleEdit = async (id) => {
+  //     try {
+  //       const res = await fetch(`http://localhost:7000/expenses/${id}`);
+  //       const data = await res.json();
+  //       setSelectedExpense(data);
+  //       document.getElementById("my_modal_5").showModal();
+  //     } catch (error) {
+  //       console.error("Error fetching expense:", error);
+  //     }
+  //   };
 
   const handleEdit = async (id) => {
     try {
       const res = await fetch(`http://localhost:7000/expenses/${id}`);
       const data = await res.json();
       setSelectedExpense(data);
+      // Populate form fields with the fetched data
+      setTitle(data.title);
+      setAmount(data.amount);
+      setDate(data.date);
+      setCategory(data.category);
       document.getElementById("my_modal_5").showModal();
     } catch (error) {
       console.error("Error fetching expense:", error);
+    }
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        `http://localhost:7000/expenses/${selectedExpense._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateFormData),
+        }
+      );
+
+      if (res.ok) {
+        toast.success("Expense updated successfully");
+        document.getElementById("my_modal_5").close();
+
+        update(); // refresh expense list
+      } else {
+        toast.error("Failed to update expense");
+      }
+    } catch (error) {
+      console.error("Error updating expense:", error);
     }
   };
   return (
@@ -115,23 +175,31 @@ const DashboardExpense = ({ expenses, setSelectCategory, handleDelete }) => {
           <h3 className="font-bold text-lg">Edit Expense</h3>
 
           {selectedExpense ? (
-            <form className="space-y-2">
+            <form onSubmit={handleUpdate} className="space-y-2">
+              <label className="block text-sm font-medium">Expense Title</label>
               <input
-                defaultValue={selectedExpense.title}
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
                 className="input w-full"
               />
+              <label className="block text-sm font-medium">Amount (৳)</label>
               <input
                 type="number"
-                defaultValue={selectedExpense.amount}
+                onChange={(e) => setAmount(e.target.value)}
+                value={amount}
                 className="input w-full"
               />
+              <label className="block text-sm font-medium">Date</label>
               <input
+                onChange={(e) => setDate(e.target.value)}
                 type="date"
-                defaultValue={selectedExpense.date}
+                value={date}
                 className="input w-full"
               />
+              <label className="block text-sm font-medium">Category</label>
               <select
-                defaultValue={selectedExpense.category}
+                onChange={(e) => setCategory(e.target.value)}
+                value={category}
                 className="select w-full"
               >
                 <option value="food">Food</option>
@@ -142,10 +210,9 @@ const DashboardExpense = ({ expenses, setSelectCategory, handleDelete }) => {
 
               <button
                 type="submit"
-                onClick={handleUpdate}
                 className="btn bg-green-700 mt-4 text-white"
               >
-                Add
+                Update
               </button>
             </form>
           ) : (
