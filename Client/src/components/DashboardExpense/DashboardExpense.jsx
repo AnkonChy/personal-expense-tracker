@@ -1,8 +1,21 @@
 import React from "react";
+import { useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaEdit } from "react-icons/fa";
 import { FaBangladeshiTakaSign, FaTrash } from "react-icons/fa6";
 const DashboardExpense = ({ expenses, setSelectCategory, handleDelete }) => {
+  const [selectedExpense, setSelectedExpense] = useState(null);
+
+  const handleEdit = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:7000/expenses/${id}`);
+      const data = await res.json();
+      setSelectedExpense(data);
+      document.getElementById("my_modal_5").showModal();
+    } catch (error) {
+      console.error("Error fetching expense:", error);
+    }
+  };
   return (
     <div className="w-2/3 shadow-xl rounded-xl overflow-hidden">
       <div className="flex items-center gap-2 justify-center bg-violet-950 h-20 text-white">
@@ -76,7 +89,10 @@ const DashboardExpense = ({ expenses, setSelectCategory, handleDelete }) => {
                   <td>{expense.category}</td>
                   <td>{expense.date}</td>
                   <td>
-                    <button className="bg-black px-4 py-[10px] rounded text-white">
+                    <button
+                      onClick={() => handleEdit(expense._id)}
+                      className="bg-black px-4 py-[10px] rounded text-white"
+                    >
                       <FaEdit />
                     </button>
                     <button
@@ -92,6 +108,57 @@ const DashboardExpense = ({ expenses, setSelectCategory, handleDelete }) => {
           </tbody>
         </table>
       </div>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      {/* Modal */}
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Edit Expense</h3>
+
+          {selectedExpense ? (
+            <form className="space-y-2">
+              <input
+                defaultValue={selectedExpense.title}
+                className="input w-full"
+              />
+              <input
+                type="number"
+                defaultValue={selectedExpense.amount}
+                className="input w-full"
+              />
+              <input
+                type="date"
+                defaultValue={selectedExpense.date}
+                className="input w-full"
+              />
+              <select
+                defaultValue={selectedExpense.category}
+                className="select w-full"
+              >
+                <option value="food">Food</option>
+                <option value="transport">Transport</option>
+                <option value="shopping">Shopping</option>
+                <option value="rent">Rent</option>
+              </select>
+
+              <button
+                type="submit"
+                onClick={handleUpdate}
+                className="btn bg-green-700 mt-4 text-white"
+              >
+                Add
+              </button>
+            </form>
+          ) : (
+            <p>Loading...</p>
+          )}
+
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
