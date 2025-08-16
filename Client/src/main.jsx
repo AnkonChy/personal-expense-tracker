@@ -3,11 +3,13 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router";
 import router from "./router/router.js";
-import  { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
     <Toaster />
+    <ToastContainer />
   </StrictMode>
 );

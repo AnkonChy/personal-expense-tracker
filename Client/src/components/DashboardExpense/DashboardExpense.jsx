@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { CiFilter } from "react-icons/ci";
 import { FaEdit } from "react-icons/fa";
 import { FaBangladeshiTakaSign, FaTrash } from "react-icons/fa6";
+import { toast as notify } from "react-toastify";
 const DashboardExpense = ({
   expenses,
   setSelectCategory,
@@ -46,6 +47,15 @@ const DashboardExpense = ({
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    if (title.length < 3) {
+      notify.warn("Title must be 4 characters");
+      return;
+    }
+    if (amount < 1) {
+      notify.warn("Amount must be greater than 0");
+      return;
+    }
     try {
       const res = await fetch(
         `https://personal-expense-tracker-vind.onrender.com/expenses/${selectedExpense._id}`,
@@ -186,12 +196,14 @@ const DashboardExpense = ({
             <form onSubmit={handleUpdate} className="space-y-2">
               <label className="block text-sm font-medium">Expense Title</label>
               <input
+                required
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 className="input w-full"
               />
               <label className="block text-sm font-medium">Amount (৳)</label>
               <input
+                required
                 type="number"
                 onChange={(e) => setAmount(e.target.value)}
                 value={amount}
@@ -199,6 +211,7 @@ const DashboardExpense = ({
               />
               <label className="block text-sm font-medium">Date</label>
               <input
+                required
                 onChange={(e) => setDate(e.target.value)}
                 type="date"
                 value={date}
@@ -206,6 +219,7 @@ const DashboardExpense = ({
               />
               <label className="block text-sm font-medium">Category</label>
               <select
+                required
                 onChange={(e) => setCategory(e.target.value)}
                 value={category}
                 className="select w-full"

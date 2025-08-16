@@ -3,6 +3,7 @@ import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import toast from "react-hot-toast";
+import { toast as notify } from "react-toastify";
 
 const AddExpense = ({ onAdd }) => {
   const [title, setTitle] = useState("");
@@ -10,14 +11,24 @@ const AddExpense = ({ onAdd }) => {
   const [date, setDate] = useState("");
   const [category, setCategory] = useState("");
   const [expense, setExpense] = useState([]);
-  const data = {
-    title,
-    amount,
-    date,
-    category,
-  };
 
-  const handleAddExpense = () => {
+  const handleAddExpense = (e) => {
+    e.preventDefault();
+    console.log("hello");
+    if (title.length < 3) {
+      notify.warn("Title must be 4 characters");
+      return;
+    }
+    if (amount < 1) {
+      notify.warn("Amount must be greater than 0");
+      return;
+    }
+    const data = {
+      title,
+      amount,
+      date,
+      category,
+    };
     fetch("https://personal-expense-tracker-vind.onrender.com/expenses", {
       method: "POST",
       headers: {
@@ -40,9 +51,10 @@ const AddExpense = ({ onAdd }) => {
       </div>
       <div className="card bg-base-100 w-full max-w-sm mx-auto">
         <div className="card-body">
-          <fieldset className="fieldset">
+          <form onSubmit={handleAddExpense} className="fieldset">
             <label className="text-base">Expense Title</label>
             <input
+              required
               onChange={(e) => setTitle(e.target.value)}
               type="text"
               className="input"
@@ -52,6 +64,7 @@ const AddExpense = ({ onAdd }) => {
               Amount <FaBangladeshiTakaSign />
             </label>
             <input
+              required
               onChange={(e) => setAmount(e.target.value)}
               type="number"
               className="input text-black"
@@ -59,12 +72,14 @@ const AddExpense = ({ onAdd }) => {
             />
             <label className="text-base">Date</label>
             <input
+              required
               onChange={(e) => setDate(e.target.value)}
               type="date"
               className="input"
             />
             <label className="text-base">Category</label>
             <select
+              required
               name=""
               id=""
               className="select"
@@ -76,14 +91,10 @@ const AddExpense = ({ onAdd }) => {
               <option value="shopping">Shopping</option>
               <option value="rent">Rent</option>
             </select>
-            <button
-              type="submit"
-              onClick={handleAddExpense}
-              className="btn bg-green-700 mt-4 text-white"
-            >
+            <button type="submit" className="btn bg-green-700 mt-4 text-white">
               Add
             </button>
-          </fieldset>
+          </form>
         </div>
       </div>
     </div>
