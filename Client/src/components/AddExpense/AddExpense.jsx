@@ -18,7 +18,7 @@ const AddExpense = ({ onAdd }) => {
   };
 
   const handleAddExpense = () => {
-    fetch("http://localhost:7000/expenses", {
+    fetch("https://personal-expense-tracker-vind.onrender.com/expenses", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

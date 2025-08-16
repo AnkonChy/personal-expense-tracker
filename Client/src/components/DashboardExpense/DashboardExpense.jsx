@@ -30,7 +30,7 @@ const DashboardExpense = ({
 
   const handleEdit = async (id) => {
     try {
-      const res = await fetch(`http://localhost:7000/expenses/${id}`);
+      const res = await fetch(`https://personal-expense-tracker-vind.onrender.com/expenses/${id}`);
       const data = await res.json();
       setSelectedExpense(data);
       // Populate form fields with the fetched data
@@ -48,7 +48,7 @@ const DashboardExpense = ({
     e.preventDefault();
     try {
       const res = await fetch(
-        `http://localhost:7000/expenses/${selectedExpense._id}`,
+        `https://personal-expense-tracker-vind.onrender.com/expenses/${selectedExpense._id}`,
         {
           method: "PATCH",
           headers: {

@@ -37,7 +37,7 @@ const Expense = () => {
   };
 
   const fetchExpenses = () => {
-    fetch("http://localhost:7000/expenses")
+    fetch("https://personal-expense-tracker-vind.onrender.com/expenses")
       .then((res) => res.json())
       .then((data) => setExpenses(data));
   };
@@ -46,7 +46,7 @@ const Expense = () => {
     console.log(id);
 
     try {
-      const res = await fetch(`http://localhost:7000/expenses/${id}`, {
+      const res = await fetch(`https://personal-expense-tracker-vind.onrender.com/expenses/${id}`, {
         method: "DELETE",
       });
       const newData = expenses.filter((e) => e._id !== id);
@@ -61,7 +61,7 @@ const Expense = () => {
     fetchExpenses(); // on first load
   }, []);
   useEffect(() => {
-    fetch("http://localhost:7000/sumExpense")
+    fetch("https://personal-expense-tracker-vind.onrender.com/sumExpense")
       .then((res) => res.json())
       .then((data) => {
         setTotalExpense(data.totalExpense);
