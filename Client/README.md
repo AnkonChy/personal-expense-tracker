@@ -1,12 +1,38 @@
-# React + Vite
+# 💰 Personal Expense Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **MERN Stack** web application to track your personal expenses. Users can **add, view, edit, and delete expenses**. Built with **Node.js, Express, MongoDB**, and **React.js / Next.js**.  
 
-Currently, two official plugins are available:
+Check out the live project here: [Personal Expense Tracker Live](https://personal-expense-tracker-sepia-tau.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📌 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Core Features
+- **Add Expense:** Title, Amount, Category, Date.
+- **View Expenses:** Display all expenses in table or card format.
+- **Edit/Delete Expense:** Update or remove existing expenses.
+- **Total Expense:** Automatically calculates and displays the total expense.
+- **Category Badges:** Easily identify categories like Food, Transport, Shopping, Others.
+
+### Bonus Features (Optional)
+- Filter expenses by **category** or **date range**.
+
+---
+
+## 🛠 Technologies Used
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+
+### Frontend
+- React.js
+- Tailwind CSS
+
+---
+
+## 📂 Project Structure
+
+### Backend
