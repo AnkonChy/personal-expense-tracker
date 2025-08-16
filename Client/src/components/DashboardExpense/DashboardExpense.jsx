@@ -9,6 +9,9 @@ const DashboardExpense = ({
   setSelectCategory,
   handleDelete,
   update,
+  setFromDate,
+  setToDate,
+  clear,
 }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [editingId, setEditingId] = useState(null);
@@ -22,17 +25,6 @@ const DashboardExpense = ({
     date,
     category,
   };
-
-  //   const handleEdit = async (id) => {
-  //     try {
-  //       const res = await fetch(`http://localhost:7000/expenses/${id}`);
-  //       const data = await res.json();
-  //       setSelectedExpense(data);
-  //       document.getElementById("my_modal_5").showModal();
-  //     } catch (error) {
-  //       console.error("Error fetching expense:", error);
-  //     }
-  //   };
 
   const handleEdit = async (id) => {
     try {
@@ -68,7 +60,7 @@ const DashboardExpense = ({
         toast.success("Expense updated successfully");
         document.getElementById("my_modal_5").close();
 
-        update(); // refresh expense list
+        update();
       } else {
         toast.error("Failed to update expense");
       }
@@ -110,14 +102,27 @@ const DashboardExpense = ({
             <option value="rent">Rent</option>
           </select>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-end gap-2">
           <div>
-            <label className="label">Date</label>
-            <input type="date" className="input" />
+            <label className="label">Date From</label>
+            <input
+              onChange={(e) => setFromDate(e.target.value)}
+              type="date"
+              className="input"
+            />
           </div>
           <div>
-            <label className="label">Date</label>
-            <input type="date" className="input" />
+            <label className="label">Date To</label>
+            <input
+              onChange={(e) => setToDate(e.target.value)}
+              type="date"
+              className="input"
+            />
+          </div>
+          <div>
+            <button onClick={clear} className="btn btn-primary">
+              Clear
+            </button>
           </div>
         </div>
       </div>

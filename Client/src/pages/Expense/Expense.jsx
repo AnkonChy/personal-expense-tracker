@@ -7,10 +7,31 @@ import toast from "react-hot-toast";
 const Expense = () => {
   const [expenses, setExpenses] = useState([]);
   const [selectCategory, setSelectCategory] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
-  const filterdExpense = selectCategory
-    ? expenses.filter((expense) => expense?.category === selectCategory)
-    : expenses;
+  // const filterdExpense = selectCategory
+  //   ? expenses.filter((expense) => expense?.category === selectCategory)
+  //   : expenses;
+
+  const filteredExpense = expenses.filter((expense) => {
+    const expenseDate = new Date(expense.date);
+    const from = fromDate ? new Date(fromDate) : null;
+    const to = toDate ? new Date(toDate) : null;
+
+    return (
+      (!selectCategory || expense.category === selectCategory) && // category filter
+      (!from || expenseDate >= from) && // from date filter
+      (!to || expenseDate <= to) // to date filter
+    );
+  });
+
+  const clear = () => {
+    setSelectCategory("");
+    setFromDate("");
+    setToDate("");
+  };
+
   const fetchExpenses = () => {
     fetch("http://localhost:7000/expenses")
       .then((res) => res.json())
@@ -46,10 +67,13 @@ const Expense = () => {
       <div className="flex items-start gap-6">
         <AddExpense onAdd={fetchExpenses} />
         <DashboardExpense
-          expenses={filterdExpense}
+          expenses={filteredExpense}
           handleDelete={handleDelete}
           setSelectCategory={setSelectCategory}
           update={fetchExpenses}
+          setFromDate={setFromDate}
+          setToDate={setToDate}
+          clear={clear}
         />
       </div>
     </div>

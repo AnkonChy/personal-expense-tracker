@@ -51,6 +51,24 @@ async function run() {
     const result = await expenseCollection.findOne(query);
     res.send(result);
   });
+
+  //update expense
+  app.patch("/expenses/:id", async (req, res) => {
+    const id = req.params.id;
+    const data = req.body;
+    const query = { _id: new ObjectId(id) };
+    const update = {
+      $set: {
+        title: data.title,
+        amount: data.amount,
+        date: data.date,
+        category: data.category,
+      },
+    };
+
+    const result = await expenseCollection.updateOne(query, update);
+    res.send(result);
+  });
 }
 
 run().catch(console.dir);
