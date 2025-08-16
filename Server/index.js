@@ -69,6 +69,25 @@ async function run() {
     const result = await expenseCollection.updateOne(query, update);
     res.send(result);
   });
+
+  app.get("/sumExpense", async (req, res) => {
+    const result = await expenseCollection
+      .aggregate([
+        {
+          $group: {
+            _id: null,
+            totalExpense: { $sum: { $toDouble: "$amount" } },
+            highestExpense: { $max: { $toDouble: "$amount" } },
+          },
+        },
+      ])
+      .toArray();
+
+    const expenses = result.length > 0 ? result[0].totalExpense : 0;
+    const highest = result.length > 0 ? result[0].highestExpense : 0;
+
+    res.send({ totalExpense: expenses, highestExpense: highest });
+  });
 }
 
 run().catch(console.dir);

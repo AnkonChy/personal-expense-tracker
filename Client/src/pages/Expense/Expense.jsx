@@ -4,11 +4,15 @@ import Swal from "sweetalert2";
 import AddExpense from "../../components/AddExpense/AddExpense";
 import DashboardExpense from "../../components/DashboardExpense/DashboardExpense";
 import toast from "react-hot-toast";
+import { useLoaderData } from "react-router";
 const Expense = () => {
   const [expenses, setExpenses] = useState([]);
   const [selectCategory, setSelectCategory] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  // const { totalExpense, highestExpense } = useLoaderData();
+  const [totalExpense, setTotalExpense] = useState(0);
+  const [highestExpense, setHighestExpense] = useState(0);
 
   // const filterdExpense = selectCategory
   //   ? expenses.filter((expense) => expense?.category === selectCategory)
@@ -56,6 +60,14 @@ const Expense = () => {
   useEffect(() => {
     fetchExpenses(); // on first load
   }, []);
+  useEffect(() => {
+    fetch("http://localhost:7000/sumExpense")
+      .then((res) => res.json())
+      .then((data) => {
+        setTotalExpense(data.totalExpense);
+        setHighestExpense(data.highestExpense);
+      });
+  }, [expenses]);
   return (
     <div className="w-11/12 mx-auto">
       <div className="flex flex-col justify-center items-center mt-10 mb-6">
@@ -64,7 +76,7 @@ const Expense = () => {
           Track your expenses and manage your budget efficiently
         </p>
       </div>
-      <div className="flex items-start gap-6">
+      <div className="flex flex-col lg:flex-row items-start gap-6">
         <AddExpense onAdd={fetchExpenses} />
         <DashboardExpense
           expenses={filteredExpense}
@@ -74,6 +86,8 @@ const Expense = () => {
           setFromDate={setFromDate}
           setToDate={setToDate}
           clear={clear}
+          totalExpense={totalExpense}
+          highestExpense={highestExpense}
         />
       </div>
     </div>

@@ -11,6 +11,8 @@ const DashboardExpense = ({
   update,
   setFromDate,
   setToDate,
+  totalExpense,
+  highestExpense,
   clear,
 }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
@@ -69,7 +71,7 @@ const DashboardExpense = ({
     }
   };
   return (
-    <div className="w-2/3 shadow-xl rounded-xl overflow-hidden">
+    <div className="md:w-full lg:w-2/3 shadow-xl rounded-xl overflow-hidden">
       <div className="flex items-center gap-2 justify-center bg-violet-950 h-20 text-white">
         <CiFilter className="text-3xl" />
         <h1 className="text-2xl font-semibold">Filter Expenses</h1>
@@ -78,13 +80,14 @@ const DashboardExpense = ({
         <div className="w-1/2 bg-blue-900 rounded-lg p-6 text-white text-lg">
           <h1>Total Expenses</h1>
           <div className="flex items-center">
-            0 <FaBangladeshiTakaSign />
+            {totalExpense} <FaBangladeshiTakaSign />
           </div>
         </div>
         <div className="flex-1 bg-green-700 rounded-lg p-6 text-white text-lg">
           <h1>Highest Expense</h1>
           <div className="flex items-center">
-            No Expenses Yet <FaBangladeshiTakaSign />
+            {highestExpense ? highestExpense : "No Expenses Yet"}
+            <FaBangladeshiTakaSign />
           </div>
         </div>
       </div>
@@ -104,7 +107,7 @@ const DashboardExpense = ({
         </div>
         <div className="flex items-end gap-2">
           <div>
-            <label className="label">Date From</label>
+            <label className="text-sm font-bold">Date From</label>
             <input
               onChange={(e) => setFromDate(e.target.value)}
               type="date"
@@ -112,7 +115,7 @@ const DashboardExpense = ({
             />
           </div>
           <div>
-            <label className="label">Date To</label>
+            <label className="text-sm font-bold">Date To</label>
             <input
               onChange={(e) => setToDate(e.target.value)}
               type="date"
@@ -120,7 +123,7 @@ const DashboardExpense = ({
             />
           </div>
           <div>
-            <button onClick={clear} className="btn btn-primary">
+            <button onClick={clear} className="btn bg-blue-900 text-white">
               Clear
             </button>
           </div>

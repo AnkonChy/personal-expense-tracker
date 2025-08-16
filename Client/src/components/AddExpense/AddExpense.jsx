@@ -33,7 +33,7 @@ const AddExpense = ({ onAdd }) => {
       });
   };
   return (
-    <div className="w-1/3 shadow-xl rounded-xl overflow-hidden sticky top-0">
+    <div className="w-full lg:w-1/3 shadow-xl rounded-xl overflow-hidden lg:sticky lg:top-0">
       <div className="flex items-center gap-2 mb-2 justify-center bg-green-700 h-20 text-white">
         <IoMdAdd className="text-3xl" />
         <h1 className="text-2xl font-semibold">Add New Expense</h1>
